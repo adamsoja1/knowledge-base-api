@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./app-backend
+      dockerfile: Dockerfile.backend
+    container_name: rag_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/llmdb
+      - HUGGINGFACE_TOKEN=${HUGGINGFACE_TOKEN}
+      - LLM_URL=hf-inference
+    depends_on:
+      - db
+    volumes:
+      - ./app-backend:/app
+
+  frontend:
+    build:
+      context: ./app-frontend
+      dockerfile: Dockerfile.frontend
+    container_name: rag_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app-frontend:/app
+    stdin_open: true
+    tty: true
+
+  db:
+    image: ankane/pgvector
+    container_name: pgvector_db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: llmdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

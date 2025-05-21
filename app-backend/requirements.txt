@@ -1,0 +1,73 @@
+openai>=1.0.0
+openai-agents
+langchain
+langchain-community
+langchain-openai
+langgraph
+llama-index
+transformers
+accelerate
+huggingface_hub
+
+
+faiss-cpu
+chromadb
+pinecone-client
+weaviate-client
+qdrant-client
+
+matplotlib
+seaborn
+pandas
+numpy
+plotly
+
+# === API / backend ===
+fastapi
+uvicorn
+flask
+pydantic
+python-dotenv
+httpx
+aiohttp
+requests
+tenacity
+
+# === Docs ===
+PyPDF2
+pdfplumber
+python-docx
+docx2txt
+unstructured
+beautifulsoup4
+lxml
+
+
+# Relational
+sqlalchemy
+asyncpg           
+psycopg2-binary   
+pymysql                      
+pgvector
+alembic
+# NoSQL
+pymongo          
+redis
+motor            
+
+# ORM/ODM
+sqlmodel       
+tortoise-orm    
+mongoengine     
+
+# === Dev, tests, Jupyter ===
+jupyterlab
+notebook
+ipython
+pytest
+mypy
+black
+isort
+tqdm
+rich
+loguru
