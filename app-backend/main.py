@@ -41,7 +41,6 @@ def create_document(doc: DocumentCreate):
 @app.post("/search/", response_model=List[DocumentOut])
 def search_similar_documents(embedding: List[float], top_k: int = 5):
     session = SessionLocal()
-    # Zapytanie wektorowe pgvector (najbliższe wektory)
     results = session.query(Document).order_by(Document.embedding.cosine_distance(embedding)).limit(top_k).all()
     session.close()
     return results

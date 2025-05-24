@@ -28,7 +28,4 @@ class Document(Base):
     added = Column(DateTime(timezone=True), server_default=func.now())  
 
 
-
-
-
 Base.metadata.create_all(bind=engine)
