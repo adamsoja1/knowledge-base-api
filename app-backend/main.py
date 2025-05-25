@@ -8,6 +8,7 @@ from typing import List
 from migrations import run_migrations
 from models.models import SessionLocal, Document
 from datetime import datetime
+from routes.generate import generation_router
 
 class DocumentCreate(BaseModel):
     text: str
@@ -21,6 +22,9 @@ class DocumentOut(BaseModel):
 
 
 app = FastAPI(title="RAG API")
+app.include_router(generation_router, prefix="/llm")
+
+
 
 @app.get('/home', response_model=List[DocumentOut])
 def home():

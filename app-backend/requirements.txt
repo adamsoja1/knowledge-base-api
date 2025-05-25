@@ -32,6 +32,8 @@ httpx
 aiohttp
 requests
 tenacity
+python-jose
+PyJWT
 
 # === Docs ===
 PyPDF2
@@ -41,7 +43,7 @@ docx2txt
 unstructured
 beautifulsoup4
 lxml
-
+docling
 
 # Relational
 sqlalchemy
