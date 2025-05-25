@@ -8,6 +8,9 @@ from typing import List
 from migrations import run_migrations
 from models.models import SessionLocal, Document
 from datetime import datetime
+from fastapi.middleware.cors import CORSMiddleware
+
+
 from routes.generate import generation_router
 
 class DocumentCreate(BaseModel):
@@ -22,7 +25,15 @@ class DocumentOut(BaseModel):
 
 
 app = FastAPI(title="RAG API")
-app.include_router(generation_router, prefix="/llm")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # frontend origin (np. Vite dev server)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(generation_router)
 
 
 

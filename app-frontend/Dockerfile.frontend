@@ -1,8 +1,21 @@
 FROM node:20-alpine
-RUN npm install
+
 WORKDIR /app
+
+# Skopiuj package.json i package-lock.json (jeśli istnieje)
+COPY package*.json ./
+
+# Zainstaluj zależności
+RUN npm install
+
+# Skopiuj resztę kodu
 COPY . .
+
+# Zbuduj aplikację
 RUN npm run build
+
+# Expose port 3000
 EXPOSE 3000
 
-CMD ["npx", "vite", "preview", "--host", "--port", "3000"]
+# Uruchom preview z --host aby było dostępne z zewnątrz kontenera
+CMD ["npx", "vite", "--host", "--port", "3000"]

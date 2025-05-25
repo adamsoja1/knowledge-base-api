@@ -16,6 +16,7 @@ class ChatRequest(BaseModel):
     prompt: str
     max_tokens: int = 100
     stream: bool = False
+    conversation_id: str
 
 def stream_response_generator(prompt: str, max_tokens: int) -> Generator[str, None, None]:
     try:
@@ -38,11 +39,11 @@ async def generate_chat_response(request: ChatRequest):
     logger.debug(f"Received request: prompt='{request.prompt}', stream={request.stream}")
     try:
         if not request.prompt.strip():
-            raise ValueError("Prompt użytkownika jest pusty")
+            raise ValueError("User's prompt is empty")
 
         if request.stream:
             return StreamingResponse(
-                preamble_and_stream_generator(request.prompt, request.max_tokens),
+                preamble_and_stream_generator(request.prompt, request.max_tokens, request.conversation_id),
                 media_type="application/json"
             )
         else:
@@ -58,12 +59,14 @@ async def generate_chat_response(request: ChatRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-def preamble_and_stream_generator(prompt: str, max_tokens: int) -> Generator[str, None, None]:
-    # 1. Najpierw wyślij "preambułę" - wstępne dane
-    yield json.dumps({"info": "Rozpoczynam generowanie odpowiedzi"}) + "\n"
 
-    # 2. Następnie wywołaj oryginalny generator odpowiedzi
+def preamble_and_stream_generator(
+        prompt: str, max_tokens: int, 
+        conversation_id: str
+    ) -> Generator[str, None, None]:
+    
+    yield json.dumps({"info": "Start of response generaton"}) + "\n"
+
     yield from stream_response_generator(prompt, max_tokens)
 
-    # 3. Opcjonalnie na końcu wyślij komunikat o zakończeniu
-    yield json.dumps({"info": "Koniec odpowiedzi"}) + "\n"
+    yield json.dumps({"info": "End"}) + "\n"
