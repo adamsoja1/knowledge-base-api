@@ -11,6 +11,8 @@ from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
 
 
+from core.embedder import get_embedder
+
 from routes.generate import generation_router
 
 class DocumentCreate(BaseModel):
@@ -35,6 +37,11 @@ app.add_middleware(
 )
 app.include_router(generation_router)
 
+
+
+@app.on_event("startup")
+def startup_event():
+    get_embedder()
 
 
 @app.get('/home', response_model=List[DocumentOut])

@@ -12,6 +12,8 @@ services:
       - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/llmdb
       - HUGGINGFACE_TOKEN=${HUGGINGFACE_TOKEN}
       - LLM_URL=hf-inference
+      - EMBEDDING_MODEL=sdadas/mmlw-retrieval-roberta-large-v2
+      
     depends_on:
       - db
     volumes:
@@ -26,6 +28,10 @@ services:
       - "3000:3000"
     volumes:
       - ./app-frontend:/app
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/llmdb
+      - HUGGINGFACE_TOKEN=${HUGGINGFACE_TOKEN}
+      - BACKEND_UR=http://localhost:8000
     stdin_open: true
     tty: true
 

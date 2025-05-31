@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { PlusIcon, ChatBubbleLeftRightIcon, TrashIcon, HomeIcon, Cog6ToothIcon, ArrowLeftEndOnRectangleIcon } from '@heroicons/react/24/outline';
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'; // Mniejsze ikony
 
-const SideBar = ({ onNewChat, onSelectChat, onClearChats }) => {
+const Sidebar = ({ onNewChat, onSelectChat, onClearChats }) => {
   const [conversations, setConversations] = useState([
     { id: '1', title: 'Planowanie podróży do Japonii', date: '2024-05-20' },
     { id: '2', title: 'Implementacja React hooks', date: '2024-05-18' },
@@ -105,4 +105,4 @@ const SideBar = ({ onNewChat, onSelectChat, onClearChats }) => {
   );
 };
 
-export default SideBar;
+export default Sidebar;

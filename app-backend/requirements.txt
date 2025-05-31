@@ -8,6 +8,7 @@ llama-index
 transformers
 accelerate
 huggingface_hub
+sentence-transformers
 
 
 faiss-cpu

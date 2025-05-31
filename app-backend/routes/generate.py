@@ -14,8 +14,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 class ChatRequest(BaseModel):
     prompt: str
-    max_tokens: int = 100
-    stream: bool = False
+    stream: bool = True
     conversation_id: str
 
 def stream_response_generator(prompt: str, max_tokens: int) -> Generator[str, None, None]:
@@ -43,13 +42,13 @@ async def generate_chat_response(request: ChatRequest):
 
         if request.stream:
             return StreamingResponse(
-                preamble_and_stream_generator(request.prompt, request.max_tokens, request.conversation_id),
+                preamble_and_stream_generator(request.prompt, 1000, request.conversation_id),
                 media_type="application/json"
             )
         else:
             response = client.chat_completion(
                 messages=[{"role": "user", "content": request.prompt}],
-                max_tokens=request.max_tokens,
+                max_tokens=1000,
                 stream=False
             )
             return JSONResponse(content={"response": response})
@@ -67,6 +66,6 @@ def preamble_and_stream_generator(
     
     yield json.dumps({"info": "Start of response generaton"}) + "\n"
 
-    yield from stream_response_generator(prompt, max_tokens)
+    yield from stream_response_generator(prompt=prompt, max_tokens=1000)
 
     yield json.dumps({"info": "End"}) + "\n"

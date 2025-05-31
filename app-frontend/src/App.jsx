@@ -4,10 +4,7 @@ import SideBar from './components/sidebar/SideBar';
 
 function App() {
   return (
-    <div>
-    <SideBar/> 
-    <ChatFrontend/>
-    </div>
+    <ChatFrontend />
   );
 }
 
