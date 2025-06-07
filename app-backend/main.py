@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from core.embedder import get_embedder
 
 from routes.generate import generation_router
-from routes.user_auth.endpoints import register_user
+from routes.user_auth.endpoints import register_router
 
 class DocumentCreate(BaseModel):
     text: str
@@ -36,7 +36,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(generation_router)
-app.include_router(register_user)
+app.include_router(register_router)
 
 
 

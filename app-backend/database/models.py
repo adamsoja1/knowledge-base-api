@@ -74,9 +74,9 @@ class Document(Base):
     text = Column(Text, nullable=False)
     embedding = Column(Vector(1024))
     page = Column(Integer, nullable=True)
-    filename_id = Column(Integer, ForeignKey("files.id"), nullable=False)
     added = Column(DateTime(timezone=True), server_default=func.now())
     group_id = Column(Integer, ForeignKey("groups.id"), nullable=False)
+    filename_id = Column(Integer, ForeignKey("files.id"), nullable=False)
 
     author = Column(String, nullable=True)
     summary = Column(Text, nullable=True)

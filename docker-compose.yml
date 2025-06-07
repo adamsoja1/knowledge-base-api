@@ -13,7 +13,7 @@ services:
       - HUGGINGFACE_TOKEN=${HUGGINGFACE_TOKEN}
       - LLM_URL=hf-inference
       - EMBEDDING_MODEL=sdadas/mmlw-retrieval-roberta-large-v2
-      
+      - API_SECRET=${SECRET_KEY}
     depends_on:
       - db
     volumes:

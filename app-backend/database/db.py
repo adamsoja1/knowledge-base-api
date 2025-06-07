@@ -1,4 +1,4 @@
-from models import SessionLocal
+from .models import SessionLocal
 
 def get_db():
     db = SessionLocal()
@@ -7,4 +7,3 @@ def get_db():
     finally:
         db.close()
 
-        
