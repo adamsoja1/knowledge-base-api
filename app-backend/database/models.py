@@ -50,7 +50,9 @@ class User(Base):
     registered_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=True)
     last_login = Column(DateTime(timezone=True), nullable=True)
     is_active = Column(Boolean, default=True, nullable=True)
-
+    phone = Column(String, nullable=True)
+    hashed_password = Column(String, nullable=False)
+    
     groups = relationship("Group", secondary=user_group_access, back_populates="users")
 
 
@@ -86,3 +88,5 @@ class Document(Base):
     
 
 Base.metadata.create_all(bind=engine)
+
+

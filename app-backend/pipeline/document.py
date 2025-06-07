@@ -52,20 +52,6 @@ class DocumentObject:
 
             doc = result.document
             
-            if hasattr(doc, 'pages') and doc.pages:
-                for idx, page in enumerate(doc.pages):
-                    if hasattr(page, 'text') and callable(page.text):
-                        text = page.text().strip()
-                    elif hasattr(page, 'get_text'):
-                        text = page.get_text().strip()
-                    else:
-                        text = str(page).strip() if page else ""
-                    
-                    self.pages.append(DocumentPage(page_number=idx + 1, text=text))
-            else:
-                full_text = doc.export_to_markdown()
-                self.pages.append(DocumentPage(page_number=1, text=full_text.strip()))
-            
             logger.info(f"Successfully loaded {len(self.pages)} pages from document.")
             
         except Exception as e:

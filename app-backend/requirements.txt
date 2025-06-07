@@ -9,8 +9,8 @@ transformers
 accelerate
 huggingface_hub
 sentence-transformers
-
-
+pydantic[email]
+passlib
 faiss-cpu
 chromadb
 pinecone-client
@@ -57,6 +57,7 @@ alembic
 pymongo          
 redis
 motor            
+
 
 # ORM/ODM
 sqlmodel       

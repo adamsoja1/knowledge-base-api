@@ -14,7 +14,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 class ChatRequest(BaseModel):
     prompt: str
-    stream: bool = True
     conversation_id: str
 
 def stream_response_generator(prompt: str, max_tokens: int) -> Generator[str, None, None]:
@@ -35,24 +34,16 @@ def stream_response_generator(prompt: str, max_tokens: int) -> Generator[str, No
 
 @generation_router.post("/generate")
 async def generate_chat_response(request: ChatRequest):
-    logger.debug(f"Received request: prompt='{request.prompt}', stream={request.stream}")
+    logger.debug(f"Received request: prompt='{request.prompt}'")
     try:
         if not request.prompt.strip():
             raise ValueError("User's prompt is empty")
 
-        if request.stream:
+        if request:
             return StreamingResponse(
                 preamble_and_stream_generator(request.prompt, 1000, request.conversation_id),
                 media_type="application/json"
             )
-        else:
-            response = client.chat_completion(
-                messages=[{"role": "user", "content": request.prompt}],
-                max_tokens=1000,
-                stream=False
-            )
-            return JSONResponse(content={"response": response})
-
     except Exception as e:
         logger.exception("Error occurred during inference")
         raise HTTPException(status_code=500, detail=str(e))
@@ -65,7 +56,5 @@ def preamble_and_stream_generator(
     ) -> Generator[str, None, None]:
     
     yield json.dumps({"info": "Start of response generaton"}) + "\n"
-
     yield from stream_response_generator(prompt=prompt, max_tokens=1000)
-
     yield json.dumps({"info": "End"}) + "\n"

@@ -6,14 +6,14 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from pgvector.sqlalchemy import Vector
 from typing import List
 from migrations import run_migrations
-from models.models import SessionLocal, Document
+from database.models import SessionLocal, Document
 from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
-
 
 from core.embedder import get_embedder
 
 from routes.generate import generation_router
+from routes.user_auth.endpoints import register_user
 
 class DocumentCreate(BaseModel):
     text: str
@@ -36,6 +36,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(generation_router)
+app.include_router(register_user)
 
 
 
@@ -54,6 +55,7 @@ def home():
 def create_document(doc: DocumentCreate):
     session = SessionLocal()
     db_doc = Document(text=doc.text, embedding=doc.embedding)
+
     session.add(db_doc)
     session.commit()
     session.refresh(db_doc)
