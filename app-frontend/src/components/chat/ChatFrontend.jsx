@@ -68,7 +68,7 @@ const ChatFrontend = () => {
 
   const handleResponse = async (prompt) => {
     try {
-      const response = await fetch('http://localhost:8000/generate', {
+      const response = await fetch('http://backend:8000/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

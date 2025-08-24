@@ -31,11 +31,8 @@ class DocumentObject:
             converter = DocumentConverter()
             
             if isinstance(pdf_source, str):
-                # Handle file path
                 result = converter.convert(pdf_source)
             elif isinstance(pdf_source, bytes):
-                # Handle bytes - save to temporary file or use BytesIO
-                # Docling expects file paths or URLs, so we need to handle bytes differently
                 import tempfile
                 with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
                     tmp_file.write(pdf_source)
